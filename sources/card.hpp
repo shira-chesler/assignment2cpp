@@ -1,8 +1,8 @@
-#ifndef _CARD_HPP
-#define _CARD_HPP
+#ifndef CARD_HPP
+#define CARD_HPP
 
 namespace ariel{
-    enum type{HEART=1, DIAMOND=2, CLUB=3, SPADE=4};
+    enum type{EMPTY=0,HEART=1, DIAMOND=2, CLUB=3, SPADE=4};
 class Card
 {
 private:
@@ -10,11 +10,12 @@ private:
     int value;
 public:
     Card();
-    Card(type t, int num);
+    Card(Card &crd);
+    Card(type cardType, int num);
     ~Card();
-    void setType();
+    void setType(type cardType);
     type getType();
-    void setValue();
+    void setValue(int num);
     int getValue();
 };
 }

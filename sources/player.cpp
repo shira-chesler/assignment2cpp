@@ -5,6 +5,9 @@ using namespace ariel;
 Player::Player(std::string name){
     
 }
+Player::Player(Player &plr){
+    
+}
 Player::~Player(){
 
 }
@@ -32,18 +35,24 @@ Card Player::draw(){
 std::string Player::getStats(){
     return "No current stats";
 }
-void Player::updateCards(){
+void Player::updateCard(Card crd, int idx){
+    
+}
+// int Player::getWinNums(){
+//     return 0;
+// }
+void Player::incWinNums(){
 
 }
-int Player::getWinNums(){
-    return 0;
-}
-void Player::setWinNums(int num){
+// double Player::getWinRate(){
+//     return 0;
+// }
+void Player::setWinRate(int totalRounds){
 
 }
-double Player::getWinRate(){
-    return 0;
-}
-void Player::setWinRate(int num){
+void setRegisteredToGame(){
 
+}
+bool getRegisteredToGame(){
+    return false;
 }

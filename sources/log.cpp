@@ -2,16 +2,16 @@
 #include "player.hpp"
 using namespace ariel;
 
-const std::string Log::cards[] = {"Ace","2","3","4","5","6","7","8","9","10","Prince","Queen","King"};
-const std::string Log::types[] = {"Hearts", "Diamonds", "Clubs", "Spades"};
+const std::array<std::string,13> Log::cards = {"Ace","2","3","4","5","6","7","8","9","10","Prince","Queen","King"};
+const std::array<std::string,5> Log::types = {"EMPTY","Hearts", "Diamonds", "Clubs", "Spades"};
 
-Log::Log(std::string log){
+Log::Log(Log* tail, Player ply1, Card crd1, Player ply2, Card crd2){
 
 }
 Log::~Log(){
 
 }
-void Log::addToLog(Log* tail, Player p1, Card c1, Player p2, Card c2){
+void Log::addToLog(Player ply1, Card crd1, Player ply2, Card crd2){
 
 }
 void Log::CloseLog(std::string winnerName){
@@ -21,8 +21,8 @@ void Log::printLog(){
 
 }
 Log* Log::getNext(){
-    return &(Log("---GAME STARTED---"));
+    return this->next;
 }
-void Log::printLog(){
+void Log::setNext(Log* next){
 
 }
