@@ -1,6 +1,8 @@
 #include "player.hpp"
 using namespace ariel;
-
+Player::Player(){
+    
+}
 
 Player::Player(std::string name){
     

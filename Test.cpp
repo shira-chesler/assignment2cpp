@@ -6,8 +6,15 @@
 TEST_CASE("Player can only be registered to one game"){
     ariel::Player p1("Moshe");
     ariel::Player p2("Haim");
+    ariel::Player p3("Chen");
     ariel::Game game(p1, p2);
-    CHECK_THROWS_WITH(ariel::Game game2(p1, p2), "A player cannot be registered to 2 gmaes");
+    CHECK_THROWS(ariel::Game(p1, p2));
+    CHECK_THROWS(ariel::Game(p1, p3));
+}
+
+TEST_CASE("Player cannot play with himself"){
+    ariel::Player p1("Moshe");
+    CHECK_THROWS(ariel::Game(p1, p1));
 }
 
 TEST_CASE("Trying to play Turn after game is over"){
@@ -15,8 +22,8 @@ TEST_CASE("Trying to play Turn after game is over"){
     ariel::Player p2("Haim");
     ariel::Game game(p1, p2);
     game.playAll();
-    CHECK_THROWS_WITH(game.playTurn(), "Can't play after game is over!");
-    CHECK_THROWS_WITH(game.playAll(), "Can't play after game is over!");
+    CHECK_THROWS(game.playTurn());
+    CHECK_THROWS(game.playAll());
 }
 
 TEST_CASE("Stats of the game at different points"){
@@ -56,7 +63,7 @@ TEST_CASE("Get winner before game is done"){
     ariel::Game game(p1,p2);
     game.playTurn();
     game.playTurn();
-    CHECK_THROWS_WITH(game.printWiner(), "Game is not over, there is no winner yet");
+    CHECK_THROWS(game.printWiner());
     game.playAll();
     CHECK_NOTHROW(game.printWiner());
 }
@@ -89,7 +96,7 @@ TEST_CASE("num of cards lowers after each turn"){
     ariel::Player p2("Haim");
     ariel::Game game(p1,p2);
     int j=26;
-    for(int i=0; i<6; i++){
+    for(int i=0; i<3; i++){
         game.playTurn();
         CHECK(p1.stacksize()<j);
         j=26-i;

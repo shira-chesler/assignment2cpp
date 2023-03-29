@@ -21,6 +21,7 @@ private:
     bool registerdToGame;
 
 public:
+    Player();
     Player(std::string name);
     Player(Player &plr);
     ~Player();
