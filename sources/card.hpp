@@ -10,13 +10,14 @@ private:
     int value;
 public:
     Card();
-    Card(Card &crd);
+    Card(const Card &crd);
     Card(type cardType, int num);
     ~Card();
+    void copyFrom(const Card &crd);
     void setType(type cardType);
-    type getType();
+    type getType() const;
     void setValue(int num);
-    int getValue();
+    int getValue() const;
 };
 }
 #endif

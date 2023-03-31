@@ -17,34 +17,38 @@ class Game
 private:
     Player &p1;
     Player &p2;
-    Log* head;
-    Log* tail;
+    Log head;
+    Log tail;
     std::array<Card, NUM_OF_CARDS_AT_DECK> deck;
     bool isGameOver=false;
-    int totalRounds;
-    int DrawsNum;
-    int NumCardsForEachPlayerOnDesk;
+    int totalRounds=0;
+    int DrawsNum=0;
+    int NumCardsForEachPlayerOnDesk=0;
+    int num_of_turns_had_tie=0;
+
+    void createGame();
+    void createDeck();
+    void cleanDeck(int low_boundary, int high_boundary);
+    void foldAndDeal(int low_boundary, int high_boundary, bool isContinious);
+    void endGame();
+    void incTotalRounds();
+    void incNumOfDrawsBy(int n);
+    void setTail(Log* new_tail);
+    void closeTurn(Player &plyr);
 
 public:
     Game(Player &ply1,Player &ply2);
     ~Game();
-    Player* getPlayer(int one_or_two);
-    void setTail(Log* new_tail);
+    Player* getPlayer(int one_or_two) const;
     void playTurn();
     void playAll();
     void printWiner();
     void printLog();
     void printStats();
     void printLastTurn();
-    void createGame();
-    void createDeck();
-    void cleanDeck(int low_boundary, int high_boundary);
-    void foldAndDeal(int low_boundary, int high_boundary, bool isContinious);
-    int getnumdraws();
-    void incNumOfDraws();
-    int getTotalRounds();
-    void incTotalRounds();
-    int getNumCardsForEachPlayerOnDesk();
+    //int getnumdraws() const;
+    int getTotalRounds() const;
+    //int getNumCardsForEachPlayerOnDesk() const;
 };
 }
 #endif

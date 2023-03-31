@@ -18,27 +18,26 @@ private:
     std::array<Card, MAX_CARDS_FOR_PLAYER> cards;
     int winNums;
     double winRate;
-    bool registerdToGame;
+    bool registerdToGame=false;
 
 public:
     Player();
     Player(std::string name);
-    Player(Player &plr);
     ~Player();
     int stacksize();
     int cardesTaken();
     void updateCardsTaken(int num);
-    std::string getName();
+    std::string getName() const;
     void setstacksize(int num);
     Card draw();
-    std::string getStats();
-    void updateCard(Card crd, int idx);
-    int getWinNums();
+    std::string getStats() const;
+    void updateCard(const Card &crd, int idx);
+    int getWinNums() const;
     void incWinNums();
-    double getWinRate();
+    double getWinRate() const;
     void setWinRate(int totalRounds);
     void setRegisteredToGame();
-    bool getRegisteredToGame();
+    bool getRegisteredToGame() const;
     
 };
 }
