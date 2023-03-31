@@ -18,7 +18,7 @@ private:
     Player &p1;
     Player &p2;
     Log head;
-    Log tail;
+    Log* ptail;
     std::array<Card, NUM_OF_CARDS_AT_DECK> deck;
     bool isGameOver=false;
     int totalRounds=0;

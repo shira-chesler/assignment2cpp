@@ -15,8 +15,8 @@ Log::Log(const Player &ply1, const Card &crd1, const Player &ply2, const Card &c
     if(crd1.getType()== EMPTY || crd2.getType()==EMPTY){
         std::cerr<<"card type is empty! error!!!"<<std::endl;
     }
-    this->the_log=ply1.getName()+" played "+cards[crd1.getValue()]+" of "+types[crd1.getType()]
-    + ply2.getName()+" played "+cards[crd2.getValue()]+" of "+types[crd2.getType()]+"."+isDraw(crd1.getValue(),crd2.getValue());
+    this->the_log=ply1.getName()+" played "+cards.at(static_cast<std::array<Card,13>::size_type>(crd1.getValue()-1))+" of "+types.at(static_cast<std::array<Card,5>::size_type>(crd1.getType()))
+    +" "+ ply2.getName()+" played "+cards.at(static_cast<std::array<Card,13>::size_type>(crd2.getValue()-1))+" of "+types.at(static_cast<std::array<Card,5>::size_type>(crd2.getType()))+"."+isDraw(crd1.getValue(),crd2.getValue());
     this->next=NULL;
 }
 
@@ -31,8 +31,8 @@ Log::~Log(){
 }
 
 void Log::addToLog(const Player &ply1, const Card &crd1, const Player &ply2, const Card &crd2){
-    this->the_log=this->the_log+" "+ply1.getName()+" played "+cards[crd1.getValue()]+" of "+types[crd1.getType()]
-    + ply2.getName()+" played "+cards[crd2.getValue()]+" of "+types[crd2.getType()]+"."+isDraw(crd1.getValue(),crd2.getValue());
+    this->the_log=this->the_log+" "+ply1.getName()+" played "+cards.at(static_cast<std::array<Card,13>::size_type>(crd1.getValue()-1))+" of "+types.at(static_cast<std::array<Card,5>::size_type>(crd1.getType()))
+    + " "+ply2.getName()+" played "+cards.at(static_cast<std::array<Card,13>::size_type>(crd2.getValue()-1))+" of "+types.at(static_cast<std::array<Card,5>::size_type>(crd2.getType()))+"."+isDraw(crd1.getValue(),crd2.getValue());
 }
 
 void Log::printLog() const{

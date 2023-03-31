@@ -13,11 +13,11 @@ class Player
 {
 private:
     std::string name;
-    int cards_won;
+    int cards_won=0;
     int stack_size;
     std::array<Card, MAX_CARDS_FOR_PLAYER> cards;
-    int winNums;
-    double winRate;
+    int winNums=0;
+    double winRate=0;
     bool registerdToGame=false;
 
 public:

@@ -33,8 +33,8 @@ void Player::setstacksize(int num){
 }
 
 Card Player::draw(){
-    Card drawn = Card(this->cards[stack_size-1]);
-    cards[stack_size-1].setType(EMPTY);
+    Card drawn = Card(this->cards.at(static_cast<std::array<Card,26>::size_type>(stack_size-1)));
+    cards.at(static_cast<std::array<Card,26>::size_type>(stack_size-1)).setType(EMPTY);
     this->stack_size--;
     return drawn;
 }
@@ -45,8 +45,8 @@ std::string Player::getStats() const{
 }
 
 void Player::updateCard(const Card &crd, int idx){
-    this->cards[idx].setType(crd.getType());
-    this->cards[idx].setValue(crd.getValue());
+    this->cards.at(static_cast<std::array<Card,26>::size_type>(idx)).setType(crd.getType());
+    this->cards.at(static_cast<std::array<Card,26>::size_type>(idx)).setValue(crd.getValue());
 }
 
 // int Player::getWinNums(){
@@ -62,7 +62,7 @@ void Player::incWinNums(){
 // }
 
 void Player::setWinRate(int totalRounds){
-    this->winRate = 100*(this->winNums/totalRounds);
+    this->winRate = 100*(((double)this->winNums)/totalRounds);
 }
 
 void Player::setRegisteredToGame(){

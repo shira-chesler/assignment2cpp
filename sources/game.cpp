@@ -1,12 +1,15 @@
+#include <ctime>
 #include <stdexcept>
 #include "game.hpp"
 using namespace ariel;
 
-Game::Game(Player &ply1,Player &ply2):p1(ply1),p2(ply2), head(Log()), tail(head){
+Game::Game(Player &ply1,Player &ply2):p1(ply1),p2(ply2){
+    this->ptail = &this->head;
     if (ply1.getRegisteredToGame()||ply2.getRegisteredToGame())
     {
         throw std::invalid_argument("A player cannot be registered to 2 games");
     }
+    std::srand(std::time(0));
     this->createGame();
 }
 
@@ -33,8 +36,8 @@ Player* Game::getPlayer(int one_or_two) const{ //is it right to return pointer o
 }
 
 void Game::setTail(Log* new_tail){
-    this->tail.setNext(new_tail);
-    this->tail=(*new_tail);
+    this->ptail->setNext(new_tail);
+    this->ptail=new_tail;
 }
 
 void Game::playTurn(){
@@ -63,34 +66,34 @@ void Game::playTurn(){
                 }
                 this->incTotalRounds();
                 this->NumCardsForEachPlayerOnDesk=0;
-                this->tail.addTurnWinner("Turn ended in a draw.");
+                this->ptail->addTurnWinner("Turn ended in a draw.");
                 break;
             }
             else{
-                this->deck[P1_BOUNDARY+2*(num_of_draws-1)]=crd1;
-                this->deck[P2_BOUNDARY+2*(num_of_draws-1)]=crd2;
+                this->deck.at(static_cast<std::array<Card,52>::size_type>(P1_BOUNDARY+2*(num_of_draws-1)))=crd1;
+                this->deck.at(static_cast<std::array<Card,52>::size_type>(P2_BOUNDARY+2*(num_of_draws-1)))=crd2;
                 if(this->p1.stacksize()==1){
-                    this->deck[P1_BOUNDARY+2*(num_of_draws-1)+1] = this->p1.draw();
-                    this->deck[P2_BOUNDARY+2*(num_of_draws-1)+1] = this->p2.draw();
+                    this->deck.at(static_cast<std::array<Card,52>::size_type>(P1_BOUNDARY+2*(num_of_draws-1)+1)) = this->p1.draw();
+                    this->deck.at(static_cast<std::array<Card,52>::size_type>(P2_BOUNDARY+2*(num_of_draws-1)+1)) = this->p2.draw();
                 }
                 this->foldAndDeal(P1_BOUNDARY,P1_BOUNDARY+this->NumCardsForEachPlayerOnDesk,false);
                 this->foldAndDeal(P2_BOUNDARY,P2_BOUNDARY+this->NumCardsForEachPlayerOnDesk,false);
                 crd1 = this->p1.draw();
                 crd2 = this->p2.draw();
-                this->tail.addToLog(this->p1,crd1,this->p2,crd2);
+                this->ptail->addToLog(this->p1,crd1,this->p2,crd2);
                 this->NumCardsForEachPlayerOnDesk=1;
             }
         }
         else
         {
-        this->deck[P1_BOUNDARY+2*(num_of_draws-1)]=crd1;
-        this->deck[P1_BOUNDARY+2*(num_of_draws-1)+1] = this->p1.draw();
+        this->deck.at(static_cast<std::array<Card,52>::size_type>(P1_BOUNDARY+2*(num_of_draws-1)))=crd1;
+        this->deck.at(static_cast<std::array<Card,52>::size_type>(P1_BOUNDARY+2*(num_of_draws-1)+1)) = this->p1.draw();
         crd1 = this->p1.draw();
-        this->deck[P2_BOUNDARY+2*(num_of_draws-1)]=crd2;
-        this->deck[P2_BOUNDARY+2*(num_of_draws-1)+1] = this->p2.draw();
+        this->deck.at(static_cast<std::array<Card,52>::size_type>(P2_BOUNDARY+2*(num_of_draws-1)))=crd2;
+        this->deck.at(static_cast<std::array<Card,52>::size_type>(P2_BOUNDARY+2*(num_of_draws-1)+1)) = this->p2.draw();
         crd2 = this->p2.draw();
         NumCardsForEachPlayerOnDesk+=2;
-        this->tail.addToLog(this->p1,crd1,this->p2,crd2);
+        this->ptail->addToLog(this->p1,crd1,this->p2,crd2);
         }
     }
     if(num_of_draws>0){
@@ -99,7 +102,7 @@ void Game::playTurn(){
         this->cleanDeck(P1_BOUNDARY,P1_BOUNDARY+this->NumCardsForEachPlayerOnDesk);
         this->cleanDeck(P2_BOUNDARY,P2_BOUNDARY+this->NumCardsForEachPlayerOnDesk);
     }
-    if((!this->p1.stacksize()==0 && !this->p2.stacksize()==0)||this->NumCardsForEachPlayerOnDesk>0){
+    if((!(this->p1.stacksize()==0) && !(this->p2.stacksize()==0))||(this->NumCardsForEachPlayerOnDesk>0)){
         if(crd1.getValue()>crd2.getValue()){
             this->closeTurn(this->p1);
         }
@@ -119,7 +122,7 @@ void Game::playTurn(){
 void Game::closeTurn(Player &plyr){
     plyr.updateCardsTaken(plyr.cardesTaken()+2*this->NumCardsForEachPlayerOnDesk);
     plyr.incWinNums();
-    this->tail.addTurnWinner(plyr.getName()+" wins.");
+    this->ptail->addTurnWinner(plyr.getName()+" wins.");
 }
 
 void Game::endGame(){
@@ -151,7 +154,7 @@ void Game::printWiner(){
         throw std::logic_error("Can't have winner when game isn't over yet");
     }
     else{
-        this->tail.printLog();
+        this->ptail->printLog();
     }
 }
 
@@ -169,7 +172,7 @@ void Game::printStats(){
     std::cout<<"P2: "<<this->p2.getStats()<<std::endl;
     std::cout<<"Total turns played in game: "<<this->totalRounds<<std::endl;
     std::cout<<"No' of draws in game: "<<this->DrawsNum<<std::endl;
-    std::cout<<"Draw rate in game: "<<(this->num_of_turns_had_tie/this->totalRounds)*100<<"%"<<std::endl;
+    std::cout<<"Draw rate in game: "<<(((double)this->num_of_turns_had_tie)/this->totalRounds)*100<<"%"<<std::endl;
     std::cout<<"Game status:"<<std::endl;
     if(this->isGameOver){
         this->printWiner();
@@ -180,7 +183,7 @@ void Game::printStats(){
 }
 
 void Game::printLastTurn(){
-    this->tail.printLog();
+    this->ptail->printLog();
 }
 
 void Game::createGame(){
@@ -191,11 +194,11 @@ void Game::createGame(){
 void Game::createDeck(){
     for (int i = 0; i < 4; i++)
     {
-        for (int j = 0; j < 13; i++)
+        for (int j = 0; j < 13; j++)
         {
             int index = i*13+j;
-            this->deck[index].setType(static_cast<type>(i+1));
-            this->deck[index].setValue(j+1);
+            this->deck.at(static_cast<std::array<Card,52>::size_type>(index)).setType(static_cast<type>(i+1));
+            this->deck.at(static_cast<std::array<Card,52>::size_type>(index)).setValue(j+1);
         }
         
     }
@@ -208,9 +211,9 @@ void Game::foldAndDeal(int low_boundary, int high_boundary, bool isContinious){
         {
             for(int j=low_boundary; j<high_boundary; j++){
                 placement = std::rand()%(52);
-                Card tmp(this->deck[j]);
-                this->deck[j].copyFrom(deck[placement]);
-                this->deck[placement].copyFrom(tmp);
+                Card tmp(this->deck.at(static_cast<std::array<Card,52>::size_type>(j)));
+                this->deck.at(static_cast<std::array<Card,52>::size_type>(j)).copyFrom(deck.at(static_cast<std::array<Card,52>::size_type>(placement)));
+                this->deck.at(static_cast<std::array<Card,52>::size_type>(placement)).copyFrom(tmp);
             }
         }
     if(isContinious){
@@ -219,11 +222,11 @@ void Game::foldAndDeal(int low_boundary, int high_boundary, bool isContinious){
                 placement=i*26+j;
                 if (i==0)
                 {
-                    this->p1.updateCard(this->deck[placement],j);
+                    this->p1.updateCard(this->deck.at(static_cast<std::array<Card,52>::size_type>(placement)),j);
                 }
                 else
                 {
-                    this->p2.updateCard(this->deck[placement],j);
+                    this->p2.updateCard(this->deck.at(static_cast<std::array<Card,52>::size_type>(placement)),j);
                 }
                 
             }
@@ -235,13 +238,13 @@ void Game::foldAndDeal(int low_boundary, int high_boundary, bool isContinious){
     else{
         if(high_boundary<=26){
             for(int j=low_boundary; j<high_boundary; j++){
-                this->p1.updateCard(this->deck[j],j);
+                this->p1.updateCard(this->deck.at(static_cast<std::array<Card,52>::size_type>(j)),j);
             }
             this->p1.setstacksize(high_boundary-low_boundary);
         }
         else{
             for(int j=low_boundary; j<high_boundary; j++){
-                this->p2.updateCard(this->deck[j],j-26);
+                this->p2.updateCard(this->deck.at(static_cast<std::array<Card,52>::size_type>(j)),j-26);
             }
             this->p2.setstacksize(high_boundary-low_boundary);
         }
@@ -252,7 +255,7 @@ void Game::foldAndDeal(int low_boundary, int high_boundary, bool isContinious){
 void Game::cleanDeck(int low_boundary, int high_boundary){
     for (int i = low_boundary; i < high_boundary; i++)
     {
-        this->deck[i].setType(EMPTY);
+        this->deck.at(static_cast<std::array<Card,52>::size_type>(i)).setType(EMPTY);
     }
 }
 
