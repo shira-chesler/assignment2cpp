@@ -43,8 +43,8 @@ Log* Log::getNext() const{
     return this->next;
 }
 
-std::string Log::isDraw(int a, int b){
-    if(a==b){
+std::string Log::isDraw(int first, int second){
+    if(first==second){
         return " Draw.";
     }
     else{

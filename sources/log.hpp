@@ -15,7 +15,7 @@ private:
     const static std::array<std::string,5> types;
     bool can_have_next=true;
 
-    std::string isDraw(int a, int b);
+    std::string isDraw(int first, int second);
 
 public:
     Log();//new beggining game log

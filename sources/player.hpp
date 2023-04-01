@@ -14,7 +14,7 @@ class Player
 private:
     std::string name;
     int cards_won=0;
-    int stack_size;
+    int stack_size=0;
     std::array<Card, MAX_CARDS_FOR_PLAYER> cards;
     int winNums=0;
     double winRate=0;

@@ -5,10 +5,16 @@ using namespace ariel;
 
 Game::Game(Player &ply1,Player &ply2):p1(ply1),p2(ply2){
     this->ptail = &this->head;
-    if (ply1.getRegisteredToGame()||ply2.getRegisteredToGame())
+    if (ply1.getRegisteredToGame())
     {
         throw std::invalid_argument("A player cannot be registered to 2 games");
     }
+    this->p1.setRegisteredToGame();
+    if(ply2.getRegisteredToGame())
+    {
+        throw std::invalid_argument("A player cannot be registered to 2 games");
+    }
+    this->p2.setRegisteredToGame();
     std::srand(std::time(0));
     this->createGame();
 }
@@ -142,6 +148,9 @@ void Game::endGame(){
 }
 
 void Game::playAll(){
+    if(this->isGameOver){
+        throw std::logic_error("Can't continue playing when game is over!");
+    }
     while (!this->isGameOver)
     {
         this->playTurn();
