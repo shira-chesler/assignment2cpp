@@ -109,7 +109,7 @@ void Game::playTurn(){
         this->cleanDeck(P2_BOUNDARY,P2_BOUNDARY+this->NumCardsForEachPlayerOnDesk);
     }
     if((!(this->p1.stacksize()==0) && !(this->p2.stacksize()==0))||(this->NumCardsForEachPlayerOnDesk>0)){
-        if(crd1.getValue()>crd2.getValue()){
+        if((crd1.getValue()==1 && crd2.getValue()!=2) ||crd1.getValue()>crd2.getValue()){
             this->closeTurn(this->p1);
         }
         else{
