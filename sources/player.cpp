@@ -8,9 +8,6 @@ Player::Player(std::string name){
     this->name=name;
 }
 
-Player::~Player(){
-
-}
 
 int Player::stacksize(){
     return this->stack_size;

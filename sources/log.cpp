@@ -26,9 +26,6 @@ Log::Log(std::string end_of_game){
     this->next=NULL;
 }
 
-Log::~Log(){
-
-}
 
 void Log::addToLog(const Player &ply1, const Card &crd1, const Player &ply2, const Card &crd2){
     this->the_log=this->the_log+" "+ply1.getName()+" played "+cards.at(static_cast<std::array<Card,13>::size_type>(crd1.getValue()-1))+" of "+types.at(static_cast<std::array<Card,5>::size_type>(crd1.getType()))

@@ -17,7 +17,23 @@ Card::Card(type cardType, int num){
 }
 
 Card::~Card(){
+}
 
+Card& Card::operator=(const Card& crd){
+    this->t = crd.t;
+    this->value = crd.value;
+    return *this;
+}
+
+Card& Card::operator=(Card&& crd) noexcept{
+    this->t = crd.t;
+    this->value = crd.value;
+    return *this;
+}
+
+Card::Card(Card&& crd) noexcept{
+    this->t = crd.t;
+    this->value = crd.value;
 }
 
 void Card::copyFrom(const Card &crd){

@@ -13,6 +13,9 @@ public:
     Card(const Card &crd);
     Card(type cardType, int num);
     ~Card();
+    Card& operator=(const Card&);
+    Card& operator=(Card&&) noexcept;
+    Card(Card&&) noexcept;
     void copyFrom(const Card &crd);
     void setType(type cardType);
     type getType() const;

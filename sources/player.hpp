@@ -23,7 +23,6 @@ private:
 public:
     Player();
     Player(std::string name);
-    ~Player();
     int stacksize();
     int cardesTaken();
     void updateCardsTaken(int num);

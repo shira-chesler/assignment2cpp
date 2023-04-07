@@ -4,6 +4,7 @@
 #include "player.hpp"
 #include "log.hpp"
 #include "card.hpp"
+#include <stdexcept>
 
 #include <array>
 
@@ -25,6 +26,7 @@ private:
     int DrawsNum=0;
     int NumCardsForEachPlayerOnDesk=0;
     int num_of_turns_had_tie=0;
+    bool had_first_turn=false;
 
     void createGame();
     void createDeck();
@@ -39,6 +41,10 @@ private:
 public:
     Game(Player &ply1,Player &ply2);
     ~Game();
+    Game(Game&&) noexcept;
+    Game(const Game&);
+    Game& operator=(const Game&);
+    Game& operator=(Game&&) noexcept;
     Player* getPlayer(int one_or_two) const;
     void playTurn();
     void playAll();

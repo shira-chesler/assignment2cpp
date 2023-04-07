@@ -21,7 +21,6 @@ public:
     Log();//new beggining game log
     Log(const Player &ply1, const Card &crd1, const Player &ply2, const Card &crd2);//new mid game log
     Log(std::string end_of_game);//new end of game log
-    ~Log();
     void setNext(Log* next);
     Log* getNext() const;
     void printLog() const;

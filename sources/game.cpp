@@ -5,16 +5,6 @@ using namespace ariel;
 
 Game::Game(Player &ply1,Player &ply2):p1(ply1),p2(ply2){
     this->ptail = &this->head;
-    if (ply1.getRegisteredToGame())
-    {
-        throw std::invalid_argument("A player cannot be registered to 2 games");
-    }
-    this->p1.setRegisteredToGame();
-    if(ply2.getRegisteredToGame())
-    {
-        throw std::invalid_argument("A player cannot be registered to 2 games");
-    }
-    this->p2.setRegisteredToGame();
     std::srand(std::time(0));
     this->createGame();
 }
@@ -27,6 +17,51 @@ Game::~Game(){
         delete cur;
         cur=tmp;
     }
+}
+
+Game::Game(Game&& gme) noexcept:p1(gme.p1), p2(gme.p2){
+    this->isGameOver=gme.isGameOver;
+    this->totalRounds=gme.totalRounds;
+    this->DrawsNum=gme.DrawsNum;
+    this->NumCardsForEachPlayerOnDesk=gme.NumCardsForEachPlayerOnDesk;
+    this->num_of_turns_had_tie=gme.num_of_turns_had_tie;
+    this->had_first_turn=gme.had_first_turn;
+
+}
+
+Game::Game(const Game &gme):p1(gme.p1), p2(gme.p2){
+    this->isGameOver=gme.isGameOver;
+    this->totalRounds=gme.totalRounds;
+    this->DrawsNum=gme.DrawsNum;
+    this->NumCardsForEachPlayerOnDesk=gme.NumCardsForEachPlayerOnDesk;
+    this->num_of_turns_had_tie=gme.num_of_turns_had_tie;
+    this->had_first_turn=gme.had_first_turn;
+}
+
+Game& Game::operator=(const Game& gme){
+    this->~Game();
+    this->p1=gme.p1;
+    this->p2=gme.p2;
+    this->isGameOver=gme.isGameOver;
+    this->totalRounds=gme.totalRounds;
+    this->DrawsNum=gme.DrawsNum;
+    this->NumCardsForEachPlayerOnDesk=gme.NumCardsForEachPlayerOnDesk;
+    this->num_of_turns_had_tie=gme.num_of_turns_had_tie;
+    this->had_first_turn=gme.had_first_turn;
+    return *this;
+}
+
+Game& Game::operator=(Game&& gme) noexcept{
+    this->~Game();
+    this->p1=gme.p1;
+    this->p2=gme.p2;
+    this->isGameOver=gme.isGameOver;
+    this->totalRounds=gme.totalRounds;
+    this->DrawsNum=gme.DrawsNum;
+    this->NumCardsForEachPlayerOnDesk=gme.NumCardsForEachPlayerOnDesk;
+    this->num_of_turns_had_tie=gme.num_of_turns_had_tie;
+    this->had_first_turn=gme.had_first_turn;
+    return *this;
 }
 
 Player* Game::getPlayer(int one_or_two) const{ //is it right to return pointer or reference
@@ -47,6 +82,19 @@ void Game::setTail(Log* new_tail){
 }
 
 void Game::playTurn(){
+    if(!had_first_turn){
+        this->had_first_turn=true;
+        if (this->p1.getRegisteredToGame())
+        {
+            throw std::invalid_argument("A player cannot be registered to 2 games");
+        }
+        this->p1.setRegisteredToGame();
+        if(this->p2.getRegisteredToGame())
+        {
+            throw std::invalid_argument("A player cannot be registered to 2 games");
+        }
+        this->p2.setRegisteredToGame();
+    }
     if(this->isGameOver){
         throw std::logic_error("Can't continue playing when game is over!");
     }
@@ -160,7 +208,7 @@ void Game::playAll(){
 
 void Game::printWiner(){
     if(!this->isGameOver){
-        throw std::logic_error("Can't have winner when game isn't over yet");
+        return;
     }
     else{
         this->ptail->printLog();
@@ -181,7 +229,9 @@ void Game::printStats(){
     std::cout<<"P2: "<<this->p2.getStats()<<std::endl;
     std::cout<<"Total turns played in game: "<<this->totalRounds<<std::endl;
     std::cout<<"No' of draws in game: "<<this->DrawsNum<<std::endl;
-    std::cout<<"Draw rate in game: "<<(((double)this->num_of_turns_had_tie)/this->totalRounds)*100<<"%"<<std::endl;
+    double draw_rate = (((double)this->num_of_turns_had_tie)/this->totalRounds)*100;
+    draw_rate==draw_rate? std::cout<<"Draw rate in game: "<<draw_rate<<"%"<<std::endl:
+    std::cout<<"Draw rate in game: "<<0<<"%"<<std::endl;
     std::cout<<"Game status:"<<std::endl;
     if(this->isGameOver){
         this->printWiner();
