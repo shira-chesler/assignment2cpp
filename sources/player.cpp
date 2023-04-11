@@ -8,7 +8,6 @@ Player::Player(std::string name){
     this->name=name;
 }
 
-
 int Player::stacksize(){
     return this->stack_size;
 }
@@ -66,6 +65,17 @@ void Player::setRegisteredToGame(){
     this->registerdToGame=true;
 }
 
+void Player::setUnRegisteredToGame(){
+    this->registerdToGame=false;
+}
+
 bool Player::getRegisteredToGame() const{
     return this->registerdToGame;
+}
+
+void Player::initialstats(){
+    cards_won=0;
+    stack_size=0;
+    winNums=0;
+    winRate=0;
 }

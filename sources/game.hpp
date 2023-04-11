@@ -27,6 +27,8 @@ private:
     int NumCardsForEachPlayerOnDesk=0;
     int num_of_turns_had_tie=0;
     bool had_first_turn=false;
+    std::string p1_final_stats;
+    std::string p2_final_stats;
 
     void createGame();
     void createDeck();

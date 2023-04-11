@@ -36,8 +36,9 @@ public:
     double getWinRate() const;
     void setWinRate(int totalRounds);
     void setRegisteredToGame();
+    void setUnRegisteredToGame();
     bool getRegisteredToGame() const;
-    
+    void initialstats();
 };
 }
 #endif

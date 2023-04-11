@@ -6,6 +6,8 @@ using namespace ariel;
 Game::Game(Player &ply1,Player &ply2):p1(ply1),p2(ply2){
     this->ptail = &this->head;
     std::srand(std::time(0));
+    if (this->p1.getRegisteredToGame()==false) this->p1.initialstats();
+    if (this->p2.getRegisteredToGame()==false) this->p2.initialstats();
     this->createGame();
 }
 
@@ -193,6 +195,10 @@ void Game::endGame(){
         Log *new_tail = new Log("There is no winner, the game ended with a tie");
         this->setTail(new_tail);
     }
+    this->p1_final_stats = p1.getStats();
+    this->p2_final_stats = p2.getStats();
+    this->p1.setUnRegisteredToGame();
+    this->p2.setUnRegisteredToGame();
 }
 
 void Game::playAll(){
@@ -225,8 +231,16 @@ void Game::printLog(){
 }
 
 void Game::printStats(){
-    std::cout<<"P1: "<<this->p1.getStats()<<std::endl;
-    std::cout<<"P2: "<<this->p2.getStats()<<std::endl;
+    if (!this->isGameOver)
+    {
+        std::cout<<"P1: "<<this->p1.getStats()<<std::endl;
+        std::cout<<"P2: "<<this->p2.getStats()<<std::endl;
+    }
+    else
+    {
+        std::cout<<"P1: "<<this->p1_final_stats<<std::endl;
+        std::cout<<"P2: "<<this->p2_final_stats<<std::endl;
+    }
     std::cout<<"Total turns played in game: "<<this->totalRounds<<std::endl;
     std::cout<<"No' of draws in game: "<<this->DrawsNum<<std::endl;
     double draw_rate = (((double)this->num_of_turns_had_tie)/this->totalRounds)*100;
