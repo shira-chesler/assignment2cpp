@@ -17,10 +17,17 @@ int main() {
 
     std::cout << "The players who are about to play: " << p1.getName() << ", " << p2.getName() << endl;
 
+    //creating a new game
     Game game(p1, p2);
-    for (int i = 0; i < 3; i++) {
-        game.playTurn();
-    }
+    game.playTurn();
+    game.printLastTurn();
+
+    game.playTurn();
+    game.playTurn();
+    std::cout << "---------START TEMP STAS---------" << endl;
+    game.printStats();
+    std::cout << "---------END TEMP STAS---------" << endl;
+
     game.playAll();
     game.printLog();
     
