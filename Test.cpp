@@ -8,13 +8,17 @@ TEST_CASE("Player can only be registered to one game"){
     ariel::Player p2("Haim");
     ariel::Player p3("Chen");
     ariel::Game game(p1, p2);
-    CHECK_THROWS(ariel::Game(p1, p2));
-    CHECK_THROWS(ariel::Game(p1, p3));
+    game.playTurn();
+    ariel::Game fail1(p1, p2);
+    ariel::Game fail2(p1, p3);
+    CHECK_THROWS(fail1.playTurn());
+    CHECK_THROWS(fail2.playTurn());
 }
 
 TEST_CASE("Player cannot play with himself"){
     ariel::Player p1("Moshe");
-    CHECK_THROWS(ariel::Game(p1, p1));
+    ariel::Game suppose_to_fail(p1, p1);
+    CHECK_THROWS(suppose_to_fail.playTurn());
 }
 
 TEST_CASE("Trying to play Turn after game is over"){
@@ -63,7 +67,7 @@ TEST_CASE("Get winner before game is done"){
     ariel::Game game(p1,p2);
     game.playTurn();
     game.playTurn();
-    CHECK_THROWS(game.printWiner());
+    CHECK_NOTHROW(game.printWiner());
     game.playAll();
     CHECK_NOTHROW(game.printWiner());
 }

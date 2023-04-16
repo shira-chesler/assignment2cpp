@@ -39,6 +39,7 @@ private:
     void incNumOfDrawsBy(int n);
     void setTail(Log* new_tail);
     void closeTurn(Player &plyr);
+    void registerPlayers();
 
 public:
     Game(Player &ply1,Player &ply2);
@@ -54,9 +55,7 @@ public:
     void printLog();
     void printStats();
     void printLastTurn();
-    //int getnumdraws() const;
     int getTotalRounds() const;
-    //int getNumCardsForEachPlayerOnDesk() const;
 };
 }
 #endif

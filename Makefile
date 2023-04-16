@@ -14,10 +14,16 @@ OBJECTS=$(subst sources/,objects/,$(subst .cpp,.o,$(SOURCES)))
 
 run: test1
 
+main: Main.o $(OBJECTS) 
+	$(CXX) $(CXXFLAGS) $^ -o $@
+
 demo: Demo.o $(OBJECTS) 
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
 test1: TestRunner.o StudentTest1.o  $(OBJECTS)
+	$(CXX) $(CXXFLAGS) $^ -o $@
+
+test: TestCounter.o Test.o $(OBJECTS)
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
 tidy:
@@ -33,4 +39,4 @@ $(OBJECT_PATH)/%.o: $(SOURCE_PATH)/%.cpp $(HEADERS)
 	$(CXX) $(CXXFLAGS) --compile $< -o $@
 
 clean:
-	rm -f $(OBJECTS) *.o test* demo*
+	rm -f $(OBJECTS) *.o test* demo* main*
