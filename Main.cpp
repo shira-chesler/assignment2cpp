@@ -13,7 +13,7 @@ using namespace ariel;
 int main() {
     // Create two players
     Player p1("May");
-    Player p2("Lev");
+    Player p2("Lia");
 
     std::cout << "The players who are about to play: " << p1.getName() << ", " << p2.getName() << endl;
 
@@ -27,6 +27,14 @@ int main() {
     std::cout << "---------START TEMP STAS---------" << endl;
     game.printStats();
     std::cout << "---------END TEMP STAS---------" << endl;
+
+    if(p1.stacksize()==game.getPlayer(1)->stacksize()){
+        std::cout << "P1 stack sizes equal in and outside the game - it's a reference" << endl;
+    }
+
+    if(p2.stacksize()==game.getPlayer(2)->stacksize()){
+        std::cout << "P2 stack sizes equal in and outside the game - it's a reference" << endl;
+    }
 
     game.playAll();
     game.printLog();

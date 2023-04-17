@@ -25,18 +25,6 @@ Game::~Game(){
     }
 }
 
-/// @brief move constructor
-/// @param gme game to move values from
-Game::Game(Game&& gme) noexcept:p1(gme.p1), p2(gme.p2){
-    this->isGameOver=gme.isGameOver;
-    this->totalRounds=gme.totalRounds;
-    this->DrawsNum=gme.DrawsNum;
-    this->NumCardsForEachPlayerOnDesk=gme.NumCardsForEachPlayerOnDesk;
-    this->num_of_turns_had_tie=gme.num_of_turns_had_tie;
-    this->had_first_turn=gme.had_first_turn;
-
-}
-
 /// @brief copy constructor
 /// @param gme game to copy from
 Game::Game(const Game &gme):p1(gme.p1), p2(gme.p2){
@@ -46,38 +34,6 @@ Game::Game(const Game &gme):p1(gme.p1), p2(gme.p2){
     this->NumCardsForEachPlayerOnDesk=gme.NumCardsForEachPlayerOnDesk;
     this->num_of_turns_had_tie=gme.num_of_turns_had_tie;
     this->had_first_turn=gme.had_first_turn;
-}
-
-/// @brief copy assignment operator
-/// @param gme game to assign values from
-/// @return reference to current game
-Game& Game::operator=(const Game& gme){
-    this->~Game();
-    this->p1=gme.p1;
-    this->p2=gme.p2;
-    this->isGameOver=gme.isGameOver;
-    this->totalRounds=gme.totalRounds;
-    this->DrawsNum=gme.DrawsNum;
-    this->NumCardsForEachPlayerOnDesk=gme.NumCardsForEachPlayerOnDesk;
-    this->num_of_turns_had_tie=gme.num_of_turns_had_tie;
-    this->had_first_turn=gme.had_first_turn;
-    return *this;
-}
-
-/// @brief move assignment operator 
-/// @param gme game to assign values from
-/// @return reference to current game
-Game& Game::operator=(Game&& gme) noexcept{
-    this->~Game();
-    this->p1=gme.p1;
-    this->p2=gme.p2;
-    this->isGameOver=gme.isGameOver;
-    this->totalRounds=gme.totalRounds;
-    this->DrawsNum=gme.DrawsNum;
-    this->NumCardsForEachPlayerOnDesk=gme.NumCardsForEachPlayerOnDesk;
-    this->num_of_turns_had_tie=gme.num_of_turns_had_tie;
-    this->had_first_turn=gme.had_first_turn;
-    return *this;
 }
 
 /// @brief function to get a player
@@ -413,4 +369,48 @@ int Game::getTotalRounds() const{
 /// @brief increments the total rounds played at game
 void Game::incTotalRounds(){
     this->totalRounds++;
+}
+
+/// @brief move constructor
+/// @param gme game to move values from
+Game::Game(Game&& gme) noexcept:p1(gme.p1), p2(gme.p2){
+    this->isGameOver=gme.isGameOver;
+    this->totalRounds=gme.totalRounds;
+    this->DrawsNum=gme.DrawsNum;
+    this->NumCardsForEachPlayerOnDesk=gme.NumCardsForEachPlayerOnDesk;
+    this->num_of_turns_had_tie=gme.num_of_turns_had_tie;
+    this->had_first_turn=gme.had_first_turn;
+
+}
+
+/// @brief copy assignment operator
+/// @param gme game to assign values from
+/// @return reference to current game
+Game& Game::operator=(const Game& gme){
+    this->~Game();
+    this->p1=gme.p1;
+    this->p2=gme.p2;
+    this->isGameOver=gme.isGameOver;
+    this->totalRounds=gme.totalRounds;
+    this->DrawsNum=gme.DrawsNum;
+    this->NumCardsForEachPlayerOnDesk=gme.NumCardsForEachPlayerOnDesk;
+    this->num_of_turns_had_tie=gme.num_of_turns_had_tie;
+    this->had_first_turn=gme.had_first_turn;
+    return *this;
+}
+
+/// @brief move assignment operator 
+/// @param gme game to assign values from
+/// @return reference to current game
+Game& Game::operator=(Game&& gme) noexcept{
+    this->~Game();
+    this->p1=gme.p1;
+    this->p2=gme.p2;
+    this->isGameOver=gme.isGameOver;
+    this->totalRounds=gme.totalRounds;
+    this->DrawsNum=gme.DrawsNum;
+    this->NumCardsForEachPlayerOnDesk=gme.NumCardsForEachPlayerOnDesk;
+    this->num_of_turns_had_tie=gme.num_of_turns_had_tie;
+    this->had_first_turn=gme.had_first_turn;
+    return *this;
 }
