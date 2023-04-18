@@ -84,7 +84,7 @@ TEST_CASE("Checking that at end of game both players have same number of cards")
     ariel::Player p2("Haim");
     ariel::Game game(p1,p2);
     game.playAll();
-    CHECK(p1.stacksize()==p2.stacksize());//won't neesecary be 0
+    CHECK(p1.stacksize()==p2.stacksize());
 }
 
 TEST_CASE("Checking no card disappered"){
